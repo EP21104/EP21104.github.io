@@ -4,10 +4,18 @@ const multer = require("multer");
 const path = require("path");
 
 const app = express();
-const port = 3000;
+//const port = 3000;
+const port = process.env.PORT || 3000;  // $PORT が設定されていない場合は 3000
+app.listen(port, () => {
+  console.log(`Server running at http://localhost:${port}`);
+});
 
 // CORS設定
 app.use(cors());
+
+// 変更点　静的ファイルの提供
+//app.use(express.static("public"));
+app.use(express.static(path.join(__dirname, 'public')));
 
 // 静的ファイルとして画像を提供
 app.use("/uploads", express.static("uploads"));
@@ -59,9 +67,4 @@ app.post("/upload", upload.single("image"), (req, res) => {
 // マーカー情報を取得
 app.get("/markers", (req, res) => {
   res.json(markers);
-});
-
-// サーバー起動
-app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
 });

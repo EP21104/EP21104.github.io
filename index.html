@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,15 +15,18 @@
             display: none;
         }
     </style>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDg-Ozuz0HdtTmVdk4IfPP1FT8o9vptwtI&loading=async&callback=initializeMap" async defer></script>
+    <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDg-Ozuz0HdtTmVdk4IfPP1FT8o9vptwtI&loading=async&callback=initializeMap"
+        async defer></script>
 </head>
+
 <body>
     <h1>お散歩経路記録デモ</h1>
     <button onclick="getCurrentLocation()">現在地取得</button>
     <button onclick="startWalking()">お散歩スタート</button>
     <button onclick="resetRoute()">ルートリセット</button>
     <button onclick="placeStarMarker()">ピンをたてる</button>
-    
+
     <form id="uploadForm" enctype="multipart/form-data">
         <input type="text" id="comment" placeholder="コメントを入力">
         <input type="file" id="imageInput">
@@ -74,6 +78,14 @@
             loadMarkers();
         }
 
+        function showError(error) {
+            document.getElementById("location").innerText = "位置情報の取得に失敗しました。";
+        }
+/*
+        window.showError = function (error) {
+            document.getElementById("location").innerText = "位置情報の取得に失敗しました。";
+        };
+*/
         function getCurrentLocation() {
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(initializeMap, showError);
@@ -167,15 +179,15 @@
                 method: "POST",
                 body: formData,
             })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    alert("投稿が完了しました");
-                    loadMarkers();
-                    document.getElementById("uploadForm").style.display = "none";
-                }
-            })
-            .catch(error => console.error("Error:", error));
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert("投稿が完了しました");
+                        loadMarkers();
+                        document.getElementById("uploadForm").style.display = "none";
+                    }
+                })
+                .catch(error => console.error("Error:", error));
         }
 
         function loadMarkers() {
@@ -239,10 +251,7 @@
                 })
                 .catch(error => console.error("Error:", error));
         }
-
-        function showError(error) {
-            document.getElementById("location").innerText = "位置情報の取得に失敗しました。";
-        }
     </script>
 </body>
+
 </html>
